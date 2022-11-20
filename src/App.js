@@ -5,6 +5,8 @@ import Footer from "./component/footer/Footer";
 import Main from "./component/main/Main";
 import Cart from "./component/cart/Cart";
 import ProductScreen from "./screen/ProductScreen";
+import { useState, useEffect } from "react";
+import Axios from "axios";
 const Login = () => {
   return (
     <div>
@@ -13,11 +15,21 @@ const Login = () => {
   );
 };
 const App = () => {
+  const [start, setStart] = useState(null);
+  useEffect(() => {
+    const fetchdata = async () => {
+      const { data } = await Axios.get("http://localhost:3001/products");
+      console.log(data);
+      setStart(data.data);
+    };
+    fetchdata();
+  }, []);
+  console.log(start);
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Header />}>
-          <Route index element={<Main className="main" />} />
+          <Route index element={<Main className="main" start={start} />} />
           <Route path="cart" element={<Cart />} />
           <Route path="login" element={<Login />} />
           <Route path="/products/:id" element={<ProductScreen />} />
