@@ -9,16 +9,19 @@ import {
   Button,
   ListGroupItem,
 } from "react-bootstrap";
+import { useState } from "react";
 import Rating from "../component/ratings/Rating";
-import products from "../products";
+import Axios from "axios";
 import { useParams } from "react-router-dom";
 const ProductScreen = () => {
+  const [product, setProduct] = useState({});
   const { id } = useParams();
-  const product = products.find((p) => {
-    return p._id === id;
-  });
-
-  console.log(id);
+  const fectData = async () => {
+    const { data } = await Axios.get(`http://localhost:3001/products/${id}`);
+    setProduct(data.data);
+  };
+  fectData();
+  console.log(product, "product");
   return (
     <>
       <Link className="btn btn-dark my-3" to="/">
@@ -26,7 +29,7 @@ const ProductScreen = () => {
       </Link>
       <Row>
         <Col md="6">
-          <Image src={product.image} alt={product.name} fluid />
+          <Image src={product.productImage} alt={product.title} fluid />
         </Col>
         <Col md="3">
           <ListGroup variant="flush">
@@ -40,6 +43,7 @@ const ProductScreen = () => {
               />
             </ListGroup.Item>
             <ListGroup.Item>Price: ₹{product.price}</ListGroup.Item>
+            <ListGroup.Item>Description:{product.description}</ListGroup.Item>
             <ListGroup.Item>Description:{product.description}</ListGroup.Item>
           </ListGroup>
         </Col>

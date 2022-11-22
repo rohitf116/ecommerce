@@ -15,16 +15,14 @@ const Login = () => {
   );
 };
 const App = () => {
-  const [start, setStart] = useState(null);
+  const [start, setStart] = useState([]);
   useEffect(() => {
     const fetchdata = async () => {
       const { data } = await Axios.get("http://localhost:3001/products");
-      console.log(data);
       setStart(data.data);
     };
     fetchdata();
   }, []);
-  console.log(start);
   return (
     <div className="App">
       <Routes>
