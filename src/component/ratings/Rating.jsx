@@ -1,5 +1,4 @@
 import React from "react";
-import { Container } from "react-bootstrap";
 import "./rating.css";
 const Rating = ({ value, text, color }) => {
   return (
